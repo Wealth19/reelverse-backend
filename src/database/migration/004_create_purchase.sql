@@ -1,0 +1,17 @@
+
+CREATE TABLE IF NOT EXISTS purchases (
+
+id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+user_id BIGINT UNSIGNED NOT NULL,
+movie_id BIGINT UNSIGNED NOT NULL,
+amount DECIMAL(10,2) NOT NULL,
+payment_method ENUM('Cash','Bank Transfer','PayPal','Others') NOT NULL,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY(user_id)
+REFERENCES users(id),
+
+
+FOREIGN KEY(movie_id)
+REFERENCES movies(id)
+
+);
