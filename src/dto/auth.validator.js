@@ -1,6 +1,7 @@
 const Joi = require("joi");
 
 // REGISTER VALIDATION
+
 const registerValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string()
@@ -56,7 +57,8 @@ const registerValidation = (req, res, next) => {
   next();
 };
 
-// LOGIN VALIDATION
+//  LOGIN VALIDATION
+
 const loginValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().email().trim().lowercase().required().messages({
@@ -83,13 +85,75 @@ const loginValidation = (req, res, next) => {
   next();
 };
 
-// REFRESH TOKEN VALIDATION
+//  REFRESH TOKEN VALIDATION
+
+// const refreshValidation = (req, res, next) => {
+//   const schema = Joi.object({
+//     refreshToken: Joi.string().required().messages({
+//       "any.required": "Refresh token is required",
+//       "string.empty": "Refresh token cannot be empty",
+//     }),
+//   });
+
+//   const { error } = schema.validate(req.body);
+
+//   if (error) {
+//     return res.status(400).json({
+//       status: "fail",
+//       message: error.details[0].message,
+//     });
+//   }
+
+//   next();
+// };
+
 const refreshValidation = (req, res, next) => {
+  const refreshToken = req.cookies?.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({
+      status: "fail",
+      message: "Refresh token is required",
+    });
+  }
+
+  next();
+};
+
+// FORGOT PASSWORD VALIDATION
+
+const forgotPasswordValidation = (req, res, next) => {
   const schema = Joi.object({
-    refreshToken: Joi.string().required().messages({
-      "any.required": "Refresh token is required",
-      "string.empty": "Refresh token cannot be empty",
+    email: Joi.string().email().trim().lowercase().required().messages({
+      "any.required": "Email is required",
+      "string.empty": "Email cannot be empty",
+      "string.email": "Invalid email format",
     }),
+  });
+
+  const { error } = schema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({
+      status: "fail",
+      message: error.details[0].message,
+    });
+  }
+
+  next();
+};
+
+// RESET PASSWORD VALIDATION
+
+const resetPasswordValidation = (req, res, next) => {
+  const schema = Joi.object({
+    token: Joi.string().required(),
+
+    password: Joi.string()
+      .min(8)
+      .max(30)
+      .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).+$"))
+      .required(),
   });
 
   const { error } = schema.validate(req.body);
@@ -108,4 +172,6 @@ module.exports = {
   registerValidation,
   loginValidation,
   refreshValidation,
+  forgotPasswordValidation,
+  resetPasswordValidation,
 };

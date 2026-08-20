@@ -1,8 +1,10 @@
 # 🎬 ReelVerse Backend
 
-The ReelVerse Backend is a RESTful API powering the ReelVerse movie streaming platform. It is built with Node.js, Express.js, and MySQL, providing secure authentication, movie management, wallet services, rentals, purchases, and watch history.
+The **ReelVerse Backend** is the RESTful API powering the ReelVerse movie streaming platform.
 
-The backend follows a scalable architecture with clean code principles, modular routing, middleware, validation, and centralized error handling.
+It is built with **Node.js, Express.js, and MySQL**, providing authentication, user management, wallet services, payments, virtual accounts, movie-related services, rentals, purchases, and watch history.
+
+The backend follows a modular architecture with controllers, services, routes, validation, middleware, centralized error handling, and database migrations.
 
 ---
 
@@ -14,159 +16,155 @@ The backend follows a scalable architecture with clean code principles, modular 
 - JWT Authentication
 - bcryptjs
 - Joi Validation
+- Axios
 - CORS
 - dotenv
+- Monnify
+- REST API
 
 ---
 
-## ✨ Features Completed
+## ✨ Features
 
-### Authentication
+### 🔐 Authentication
 
-- User Registration
-- User Login
-- JWT Access Token
-- JWT Refresh Token
-- Password Hashing (bcryptjs)
-- Joi Request Validation
+- User registration
+- User login
+- JWT access tokens
+- JWT refresh tokens
+- HttpOnly refresh-token cookies
+- Refresh-token rotation
+- Automatic access-token renewal
+- Password hashing with bcryptjs
+- Authentication middleware
+- Logout
+- Request validation with Joi
 
-### User Management
+### 👤 User Management
 
-- User Profile
-- Authentication Middleware
+- View authenticated user's profile
+- Update profile information
+- Change password
+- Delete account
+- User lookup services
+- User roles
 
-### Wallet
+### 💳 Wallet
 
-- Automatic Wallet Creation
-- Wallet Routes
-- Wallet History
+- Automatic wallet creation during registration
+- Wallet balance management
+- Wallet history
+- Wallet transaction support
 
-### Movies
+### 💰 Payments
 
-- Movie Routes
-- Movie CRUD Structure
+- Payment transaction handling
+- Payment initialization
+- Payment verification
+- Payment status management
+- Webhook processing
 
-### Rentals
+### 🏦 Virtual Accounts
 
-- Rent Movies
-- Rental History
+- User virtual account creation
+- Virtual account management
+- Monnify integration
+- Virtual account webhook support
 
-### Purchases
+### 🎬 Movies
 
-- Purchase Movies
+- Movie management structure
+- Movie CRUD architecture
+- Movie-related database migrations
 
-### Watch History
+### 🎟️ Rentals
 
-- Save Watch History
-- Retrieve Watch History
+- Movie rentals
+- Rental records
+- Rental history
 
-### Security
+### 🛒 Purchases
 
-- Global Error Handling
-- Async Error Wrapper
-- Request Sanitization
-- Route Not Found Middleware
+- Movie purchases
+- Purchase records
+
+### 👁️ Watch History
+
+- Save watch history
+- Retrieve watch history
+- Track user movie activity
+
+### 🛡️ Security
+
+- JWT authentication
+- HttpOnly refresh-token cookies
+- Password hashing
+- Protected routes
+- Request validation
+- Centralized error handling
+- Async error handling
+- Route-not-found handling
+- CORS configuration
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-src
+Backend/
 │
-├── configuration
-├── controller
-├── dto
-├── middlewares
-├── route
-├── utils
-├── services
-├── server.js
-```
+├── src/
+│   │
+│   ├── configuration/
+│   │   └── Database configuration
+│   │
+│   ├── controller/
+│   │   ├── auth.controller.js
+│   │   ├── user.controller.js
+│   │   ├── wallet.controller.js
+│   │   ├── wallet-history.controller.js
+│   │   ├── payment.controller.js
+│   │   ├── virtual-account.controller.js
+│   │   └── webhook.controller.js
+│   │
+│   ├── database/
+│   │   └── migration/
+│   │
+│   ├── dto/
+│   │   ├── auth.validator.js
+│   │   ├── user.validator.js
+│   │   ├── wallet.validator.js
+│   │   └── payment/
+│   │
+│   ├── middlewares/
+│   │
+│   ├── route/
+│   │   ├── auth.route.js
+│   │   ├── user.route.js
+│   │   ├── payment.route.js
+│   │   ├── virtual-account.route.js
+│   │   └── webhook.route.js
+│   │
+│   ├── services/
+│   │   ├── auth/
+│   │   ├── user/
+│   │   ├── wallet/
+│   │   ├── payment/
+│   │   └── virtual-account/
+│   │
+│   ├── third-party/
+│   │
+│   ├── utils/
+│   │   ├── AppError.js
+│   │   ├── catchAsync.js
+│   │   └── token.js
+│   │
+│   └── server.js
+│
+├── package.json
+├── package-lock.json
+└── README.md
 
----
-
-## 📦 Installation
-
-Clone the repository
-
-```bash
-git clone https://github.com/YOUR_USERNAME/reelverse-backend.git
-```
-
-Move into the project
-
-```bash
-cd Backend
-```
-
-Install dependencies
-
-```bash
-npm install
-```
-
-Run the server
-
-```bash
-npm run dev
-```
-
----
-
-## ⚙️ Environment Variables
-
-Create a `.env` file.
-
-```env
-PORT=5000
-
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=YOUR_USERNAME
-DB_PASSWORD=YOUR_PASSWORD
-DB_NAME=movie_db
-
-JWT_SECRET=YOUR_SECRET
-JWT_REFRESH_SECRET=YOUR_REFRESH_SECRET
-
-JWT_ACCESS_TOKEN_EXPIRES_IN=5m
-JWT_REFRESH_TOKEN_EXPIRES_IN=12h
-
-CLIENT_URL=http://localhost:3000
-```
-
----
-
-## 🔐 API Modules
-
-- Authentication
-- Users
-- Movies
-- Wallet
-- Wallet History
-- Rentals
-- Purchases
-- Watch History
-
----
-
-## 🚧 Upcoming Features
-
-- Helmet Security
-- HPP Protection
-- XSS Protection
-- Compression
-- Rate Limiting
-- Advanced CORS Configuration
-- Cloudinary Image Uploads
-- Email Verification
-- Password Reset
-- Role-Based Authorization
-- Unit Testing
-- API Documentation (Swagger)
-
----
 
 ## 🤝 Contributing
 
@@ -184,4 +182,4 @@ This project is licensed under the MIT License.
 
 Developed with ❤️ by **Olupona Damilare (Wealth)**.
 
-Full-Stack Developer passionate about building scalable backend systems, secure REST APIs, and modern web applications.
+Full-Stack Developer passionate about building scalable backend systems, secure REST APIs, and modern web applications. -->

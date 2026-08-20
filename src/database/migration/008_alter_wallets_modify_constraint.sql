@@ -1,0 +1,8 @@
+ALTER TABLE wallet
+DROP FOREIGN KEY wallet_ibfk_1;
+
+ALTER TABLE wallet
+ADD CONSTRAINT fk_wallet_user
+FOREIGN KEY (user_id)
+REFERENCES users(id)
+ON DELETE NO ACTION ON UPDATE NO ACTION;

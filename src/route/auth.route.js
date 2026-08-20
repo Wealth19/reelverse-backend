@@ -8,18 +8,35 @@ const {
 
 const {
   register,
-  loginUser,
+  login,
   refreshAuthToken,
+  logout,
 } = require("../controller/auth.controller");
-
-const protect = require("../middlewares/auth.middleware");
 
 const authRoute = express.Router();
 
+// ============================================================
+// REGISTER
+// ============================================================
+
 authRoute.post("/register", registerValidation, register);
 
-authRoute.post("/login", loginValidation, loginUser);
+// ============================================================
+// LOGIN
+// ============================================================
+
+authRoute.post("/login", loginValidation, login);
+
+// ============================================================
+// REFRESH ACCESS TOKEN
+// ============================================================
 
 authRoute.post("/refresh", refreshValidation, refreshAuthToken);
+
+// ============================================================
+// LOGOUT
+// ============================================================
+
+authRoute.post("/logout", logout);
 
 module.exports = authRoute;

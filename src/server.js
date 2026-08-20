@@ -1,4 +1,6 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
+const getAccessToken = require("./third-party/monnify/auth");
 const dbConnection = require("./configuration/db");
 const cors = require("cors");
 
@@ -15,6 +17,10 @@ const walletHistoryRoutes = require("./route/wallet-history.route");
 const watchHistoryRoutes = require("./route/watch-history.route");
 const purchaseRoutes = require("./route/purchase.route");
 const rentalRoutes = require("./route/rental.route");
+const paymentRoutes = require("./route/payment.route");
+const webhookRoutes = require("./route/webhook.route");
+const virtualAccountRoutes = require("./route/virtual-account.route");
+// const testRoue = require("./route/webhook..route");
 const sanitizeMiddleware = require("./middlewares/sanitize.middleware");
 
 // const actionRoutes = require("./routes/actionRoutes");
@@ -42,7 +48,19 @@ app.use(
   }),
 );
 
-app.use(express.json());
+// app.use(express.json());
+
+// NEWLY APP.USE
+
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf;
+    },
+  }),
+);
+
+app.use(cookieParser());
 
 app.use(sanitizeMiddleware);
 
@@ -65,9 +83,16 @@ apiRouter.use("/purchases", purchaseRoutes);
 
 apiRouter.use("/rentals", rentalRoutes);
 
+apiRouter.use("/payments", paymentRoutes);
+
+apiRouter.use("/webhooks", webhookRoutes);
+
+apiRouter.use("/virtual-account", virtualAccountRoutes);
+
 apiRouter.use("/watch", watchHistoryRoutes);
 
 // mount router ONCE here
+
 app.use("/api", apiRouter);
 
 // Unknown routes

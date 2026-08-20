@@ -2,27 +2,36 @@ const express = require("express");
 
 const {
   getMyProfile,
-  updateProfile,
   deleteMyAccount,
-  findAll,
+  updateMyProfile,
+  updatePassword,
 } = require("../controller/user.controller");
 
 const protect = require("../middlewares/auth.middleware");
 
-const { updateValidation } = require("../dto/user.validator");
+const {
+  updateProfileValidation,
+  changePasswordValidation,
+  deleteAccountValidation,
+} = require("../dto/user.validator");
 
 const userRoute = express.Router();
 
-// GET PROFILE
+// PROFILE
+
 userRoute.get("/profile", protect, getMyProfile);
 
-// UPDATE PROFILE
-userRoute.put("/users:id", protect, updateValidation, updateProfile);
+userRoute.put("/profile", protect, updateProfileValidation, updateMyProfile);
 
-// DELETE ACCOUNT
-userRoute.delete("/users:id", protect, deleteMyAccount);
+userRoute.delete("/profile", protect, deleteAccountValidation, deleteMyAccount);
 
-// FIND ALL USERS
-userRoute.get("/", findAll);
+// PASSWORD
+
+userRoute.put(
+  "/change-password",
+  protect,
+  changePasswordValidation,
+  updatePassword,
+);
 
 module.exports = userRoute;
