@@ -9,10 +9,44 @@ dotenv.config();
 
 const MIGRATION_DIR = path.join(__dirname, "/migration");
 
+const waitForDatabase = async () => {
+  const maxAttempts = 20;
+  const retryDelayMs = 3000;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+    try {
+      const connection = await mysql.createConnection({
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        port: process.env.DB_PORT,
+        multipleStatements: true,
+        connectTimeout: 5000,
+      });
+
+      await connection.ping();
+      await connection.end();
+      return;
+    } catch (error) {
+      if (attempt === maxAttempts) {
+        throw error;
+      }
+
+      console.log(
+        `Database not ready yet (attempt ${attempt}/${maxAttempts}). Retrying in ${retryDelayMs / 1000}s...`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, retryDelayMs));
+    }
+  }
+};
+
 const runDBScript = async () => {
   let connection;
 
   try {
+    await waitForDatabase();
+
     connection = await mysql.createConnection({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,

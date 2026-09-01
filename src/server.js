@@ -20,6 +20,7 @@ const rentalRoutes = require("./route/rental.route");
 const paymentRoutes = require("./route/payment.route");
 const webhookRoutes = require("./route/webhook.route");
 const virtualAccountRoutes = require("./route/virtual-account.route");
+const healthRoutes = require("./route/health.route");
 // const testRoue = require("./route/webhook..route");
 const sanitizeMiddleware = require("./middlewares/sanitize.middleware");
 
@@ -37,6 +38,8 @@ dbConnection
   });
 
 const app = express();
+
+app.use("/health", healthRoutes);
 
 // middleware
 // app.use(cors());
@@ -102,8 +105,8 @@ app.use("/", notFoundRoute);
 app.use(globalErrorHandler);
 
 const port = process.env.PORT;
-const server = app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Server listening at http://0.0.0.0:${port}`);
 });
 
 process.on("unhandledRejection", (err) => {

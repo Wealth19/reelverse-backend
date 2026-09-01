@@ -235,12 +235,7 @@ const {
 
 const { findOneWallet, findOneWalletByUserId } = require("./wallet-query.service");
 
-// =========================
 // CREATE WALLET
-// =========================
-// =========================
-// CREATE WALLET
-// =========================
 const createWallet = async (
   payload,
   connection = dbConnection,
@@ -267,9 +262,7 @@ const createWallet = async (
   );
 };
 
-// =========================
 // FUND WALLET
-// =========================
 const fundWallet = async (amount, userId) => {
   const connection = await dbConnection.getConnection();
 

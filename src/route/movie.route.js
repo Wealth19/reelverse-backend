@@ -4,10 +4,10 @@ const movieRoute = express.Router();
 const { createMovieValidation } = require("../dto/movie.validator");
 const {
   createMovie,
+  getMovies,
   getMovie,
   deleteMovie,
 } = require("../controller/movie.controller");
-
 
 const protect = require("../middlewares/auth.middleware");
 
@@ -15,7 +15,7 @@ const role = require("../middlewares/role.middleware");
 
 // everybody can see movies
 
-movieRoute.get("/", getMovie);
+movieRoute.get("/", getMovies);
 
 // producer only
 movieRoute.post(

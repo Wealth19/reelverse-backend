@@ -1,6 +1,4 @@
-// =========================
 // FIND WALLET BY ID
-// =========================
 const findOneWallet = async (id, lock = false, connection = dbConnection) => {
   let sql = `
     SELECT *
@@ -21,9 +19,7 @@ const findOneWallet = async (id, lock = false, connection = dbConnection) => {
   return wallet;
 };
 
-// =========================
 // FIND WALLET BY USER ID
-// =========================
 const findOneWalletByUserId = async (
   queryObject,
   lock = false,

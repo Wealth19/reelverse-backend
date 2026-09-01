@@ -6,5 +6,9 @@ CREATE TABLE IF NOT EXISTS wallet (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   CONSTRAINT chk_balance_non_negative CHECK (balance >= 0),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE NO ACTION ON UPDATE NO ACTION
+   CONSTRAINT fk_wallet_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
 );

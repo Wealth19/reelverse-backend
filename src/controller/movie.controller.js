@@ -2,7 +2,6 @@ const dbConnection = require("../configuration/db");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
 
-
 // CREATE MOVIE
 
 const createMovie = catchAsync(async (req, res) => {
@@ -27,7 +26,7 @@ const createMovie = catchAsync(async (req, res) => {
   }
 
   const [result] = await dbConnection.query(
-   `
+    `
     INSERT INTO movies
     (title,rental_price,purchase_price,producer_id)
 
@@ -37,7 +36,7 @@ const createMovie = catchAsync(async (req, res) => {
   );
 
   const [[movie]] = await dbConnection.query(
-  `
+    `
     SELECT
     id,
     title,
@@ -62,14 +61,33 @@ const createMovie = catchAsync(async (req, res) => {
   });
 });
 
+// Get all Movies
+const getMovies = catchAsync(async (req, res) => {
+  const [movies] = await dbConnection.query(`
+    SELECT
+      movies.id,
+      movies.title,
+      movies.description,
+      movies.rental_price,
+      movies.purchase_price,
+      users.name AS producer
+    FROM movies
+    JOIN users ON movies.producer_id = users.id
+    ORDER BY movies.created_at DESC
+  `);
 
+  res.status(200).json({
+    status: "success",
+    data: movies,
+  });
+});
 
 // Get a single Movie
 const getMovie = catchAsync(async (req, res) => {
   const { id } = req.params;
 
   const [[movie]] = await dbConnection.query(
-  `
+    `
     SELECT
     movies.id,
     movies.title,
@@ -101,7 +119,6 @@ const getMovie = catchAsync(async (req, res) => {
   });
 });
 
-
 // Delete a movie
 
 const deleteMovie = catchAsync(async (req, res) => {
@@ -110,7 +127,7 @@ const deleteMovie = catchAsync(async (req, res) => {
   const producerId = req.user.id;
 
   const [[movie]] = await dbConnection.query(
-  `
+    `
     SELECT id 
     FROM movies
     WHERE id=? 
@@ -127,7 +144,7 @@ const deleteMovie = catchAsync(async (req, res) => {
 
   // deleteing movie
   await dbConnection.query(
-  `
+    `
     DELETE FROM movies
     WHERE id=?
 
@@ -142,9 +159,9 @@ const deleteMovie = catchAsync(async (req, res) => {
   });
 });
 
-
 module.exports = {
   createMovie,
+  getMovies,
   getMovie,
-  deleteMovie
-}
+  deleteMovie,
+};
